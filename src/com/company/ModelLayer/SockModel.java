@@ -2,6 +2,7 @@ package com.company.ModelLayer;
 
 import com.company.DAOLayer.DAOFileSock;
 import com.company.DAOLayer.IDAOSock;
+import com.company.ModelLayer.Search.SearchManager;
 
 import java.io.IOException;
 import java.util.List;
@@ -49,5 +50,13 @@ public class SockModel implements ISockModel {
     public ISock getSockById(int id)
     {
         return sockDao.readSock(id);
+    }
+
+
+    public List<ISock> findBy(Object findValue,String fieldName)
+    {
+        List<ISock> allSocks = getAllSocks();
+        SearchManager searchManager = new SearchManager(allSocks);
+        return searchManager.search(fieldName,findValue);
     }
 }

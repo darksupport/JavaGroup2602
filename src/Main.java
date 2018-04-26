@@ -14,14 +14,14 @@ public class Main {
 
     public static void main(String[] args) {
 try {
-    IDAOSock daoObject = new DAOFileSock();
-    ISockModel model = new SockModel(daoObject);
-    IUISock socInput = new ConsoleSock(model);
-    socInput.mainMenu();
-}catch (Exception ex)
-{
-    return;
-}
+     IDAOSock daoObject = new DAOFileSock();
+     ISockModel model = new SockModel(daoObject);
+     IUISock socInput = new ConsoleSock(model);
+      socInput.mainMenu();
+    }catch (IOException ex)
+    {
+        System.out.println("Data read exception.");
+    }
 
     }
 }
