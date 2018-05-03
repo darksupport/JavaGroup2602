@@ -7,10 +7,10 @@ import javax.activation.UnsupportedDataTypeException;
  */
 public class SockData implements ISock,Comparable {
 
-    String type;
-    String color;
-    int size;
-    int id;
+    public String type;
+    public String color;
+    public int size;
+    public int id;
 
     public  SockData()
     {
@@ -99,4 +99,5 @@ public class SockData implements ISock,Comparable {
         }
         return 0;
     }
+
 }

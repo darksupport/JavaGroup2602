@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface IUISock {
 
-    ISock getSockFromUser();
+    ISock getSockFromUser() throws NoSuchFieldException;
     void showSock(ISock sock);
     void showSock(List<ISock> socks);
     ISock updateSock(ISock sock);

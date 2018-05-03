@@ -1,14 +1,11 @@
 package com.company.UILayer;
 
-import com.company.DAOLayer.DAOFileSock;
-import com.company.DAOLayer.IDAOSock;
 import com.company.ModelLayer.ISockModel;
+import com.company.ModelLayer.Search.SearchManager;
 import com.company.ModelLayer.SockData;
 import com.company.ModelLayer.ISock;
-import com.company.ModelLayer.SockModel;
 
-import java.io.Console;
-import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.Scanner;
 import java.util.List;
 
@@ -28,22 +25,40 @@ public class ConsoleSock implements IUISock {
     private static String getMainMenuText()
     {
         return "Show all: 0\nAdd new item: 1\nUpdate item: 2\n"
-                + "Delete item: 3\nExit : 4\nPlease choice option: ";
+                + "Delete item: 3\nSearch : 4\nExit : 5\nPlease choice option: ";
     }
 
     @Override
-    public ISock getSockFromUser() {
+    public ISock getSockFromUser() throws NoSuchFieldException {
         SockData result = new SockData();
         System.out.println("Please enter new sockData.");
         System.out.print("Type: ");
-        result.setType(scn.nextLine());
+        result.setType(validateAndReenter("type", scn.nextLine()));
         System.out.print("Size: ");
-        result.setSize(Integer.parseInt(scn.nextLine()));
+        result.setSize(Integer.parseInt(validateAndReenter("size", scn.nextLine())));
         System.out.print("Color: ");
-        result.setColor(scn.nextLine());
+        result.setColor(validateAndReenter("color", scn.nextLine()));
 
         return result;
     }
+
+    private String validateAndReenter(String fieldName, String value) throws NoSuchFieldException {
+        while (!BaseValidator.validateSockField(fieldName,value))
+        {
+            System.out.println("Please reenter value: ");
+            value = scn.nextLine();
+        }
+        return value;
+    }
+    private String validateAndReenter(Type type, String value) {
+        while (!BaseValidator.validateField(type.getTypeName(),value))
+        {
+            System.out.println("Please reenter value: ");
+            value = scn.nextLine();
+        }
+        return value;
+    }
+
 
     @Override
     public void showSock(ISock sock) {
@@ -67,7 +82,8 @@ public class ConsoleSock implements IUISock {
         boolean continueEdit = true;
         while (continueEdit) {
             System.out.println("Please input field number for change:");
-            Integer fieldIndex = Integer.parseInt(scn.nextLine());
+
+            Integer fieldIndex = Integer.parseInt(validateAndReenter(Integer.TYPE,scn.nextLine()));
             System.out.println("Please input new value:");
             String newValue = scn.nextLine();
 
@@ -122,8 +138,15 @@ public class ConsoleSock implements IUISock {
                    showSock(sockModel.getAllSocks());
                    break;
                case 1:
-                   ISock newSock = getSockFromUser();
-                   sockModel.addSock(newSock);
+                   try {
+                       ISock newSock = getSockFromUser();
+                       sockModel.addSock(newSock);
+                     }
+                     catch (NoSuchFieldException ex)
+                    {
+                        System.out.println("System critical error;");
+                        return;
+                    }
                    break;
                case 2:
                    showSock(sockModel.getAllSocks());
@@ -134,7 +157,15 @@ public class ConsoleSock implements IUISock {
                case 3:
                    deleteSock();
                    break;
-               case  4:
+               case 4:
+                   SearchManager manager = new SearchManager(sockModel.getAllSocks());
+                   System.out.println("Please enter serach field:");
+                   String fieldName = scn.nextLine();
+                   System.out.println("Please enter serach value:");
+                   String searchValue = scn.nextLine();
+                   showSock(manager.search(fieldName,searchValue));
+                   break;
+               case  5:
                    continu = false;
                    break;
            }

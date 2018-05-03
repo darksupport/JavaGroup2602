@@ -15,7 +15,7 @@ public class ColorSearch implements ISearch {
         String color = (String)searchParam;
         List<ISock> result = new ArrayList<>();
         for (ISock sock: data) {
-            if(sock.getColor().indexOf(color)>0)
+            if(sock.getColor().indexOf(color)>=0)
             {
                 result.add(sock);
             }
