@@ -1,12 +1,9 @@
 package com.company.ModelLayer;
 
-import com.company.DAOLayer.DAOFileSock;
 import com.company.DAOLayer.IDAOSock;
-import com.company.ModelLayer.Search.SearchManager;
+import com.company.ModelLayer.SearchForFileDAO.SearchManager;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Created by Brainacad4 on 23.04.2018.

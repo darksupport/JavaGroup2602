@@ -1,5 +1,6 @@
-package com.company.ModelLayer.Search;
+package com.company.ModelLayer.SearchForFileDAO;
 
+import com.company.ModelLayer.ISearchManager;
 import com.company.ModelLayer.ISock;
 
 import java.util.HashMap;
@@ -8,7 +9,7 @@ import java.util.List;
 /**
  * Created by Brain on 26.04.2018.
  */
-public class SearchManager {
+public class SearchManager implements ISearchManager {
 
     HashMap<String,ISearch> serachTable;
     List<ISock> data;
@@ -20,6 +21,7 @@ public class SearchManager {
         serachTable.put("Size",new SizeSearch());
     }
 
+    @Override
     public List<ISock> search(String fieldName, Object searchParam)
     {
       ISearch serchObject = serachTable.get(fieldName);

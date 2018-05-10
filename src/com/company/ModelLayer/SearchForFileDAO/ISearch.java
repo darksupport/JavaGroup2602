@@ -1,4 +1,4 @@
-package com.company.ModelLayer.Search;
+package com.company.ModelLayer.SearchForFileDAO;
 
 import com.company.ModelLayer.ISock;
 

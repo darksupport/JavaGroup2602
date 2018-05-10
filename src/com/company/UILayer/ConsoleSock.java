@@ -1,7 +1,8 @@
 package com.company.UILayer;
 
+import com.company.ModelLayer.ISearchManager;
 import com.company.ModelLayer.ISockModel;
-import com.company.ModelLayer.Search.SearchManager;
+import com.company.ModelLayer.SearchForFileDAO.*;
 import com.company.ModelLayer.SockData;
 import com.company.ModelLayer.ISock;
 
@@ -25,7 +26,7 @@ public class ConsoleSock implements IUISock {
     private static String getMainMenuText()
     {
         return "Show all: 0\nAdd new item: 1\nUpdate item: 2\n"
-                + "Delete item: 3\nSearch : 4\nExit : 5\nPlease choice option: ";
+                + "Delete item: 3\nSearchForFileDAO : 4\nExit : 5\nPlease choice option: ";
     }
 
     @Override
@@ -158,7 +159,7 @@ public class ConsoleSock implements IUISock {
                    deleteSock();
                    break;
                case 4:
-                   SearchManager manager = new SearchManager(sockModel.getAllSocks());
+                   ISearchManager manager = new SearchManager(sockModel.getAllSocks());
                    System.out.println("Please enter serach field:");
                    String fieldName = scn.nextLine();
                    System.out.println("Please enter serach value:");
