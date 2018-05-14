@@ -1,6 +1,4 @@
-import com.company.DAOLayer.DAODBSock;
-import com.company.DAOLayer.DAOFileSock;
-import com.company.DAOLayer.IDAOSock;
+import com.company.DAOLayer.*;
 import com.company.ModelLayer.ISock;
 import com.company.ModelLayer.ISockModel;
 import com.company.ModelLayer.SockData;
@@ -9,6 +7,7 @@ import com.company.UILayer.ConsoleSock;
 import com.company.UILayer.IUISock;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 
@@ -17,7 +16,9 @@ public class Main {
     public static void main(String[] args) {
 try {
      //IDAOSock daoObject = new DAOFileSock();
-     IDAOSock daoObject = new DAODBSock("localhost",3306,"root","1111");
+    Connection con = DBTools.getConnection("localhost",3306,"root","1111");
+    IDAODBOwner daoOwner = new DAODBOwner(con);
+    IDAOSock daoObject = new DAODBSock(con, daoOwner);
      ISockModel model = new SockModel(daoObject);
      IUISock socInput = new ConsoleSock(model);
       socInput.mainMenu();

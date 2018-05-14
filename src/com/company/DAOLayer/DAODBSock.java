@@ -1,5 +1,6 @@
 package com.company.DAOLayer;
 
+import com.company.ModelLayer.IOwnerData;
 import com.company.ModelLayer.ISock;
 import com.company.ModelLayer.SockData;
 
@@ -12,8 +13,7 @@ import java.util.List;
  */
 public class DAODBSock implements IDAOSock {
 
-    private static String url = "jdbc:mysql://{serverAddr}:{portAddr}/sockdb";
-    private static String selectSockByIdQuery = "Select id_socks,color_socks,size_socks,type_sock_type \n" +
+       private static String selectSockByIdQuery = "Select id_socks,color_socks,size_socks,type_sock_type,owner_socks \n" +
             "FROM sockdb.socks \n" +
             "left join sockdb.sock_types ON sock_types.id_sock_types = socks.type_socks \n";
 
@@ -26,14 +26,13 @@ public class DAODBSock implements IDAOSock {
     private static String insertSockType = "Insert into sockdb.sock_types (type_sock_type) values (?)";
 
 
-    private static Connection con;
+    private  Connection con;
     PreparedStatement pstm;
+    IDAODBOwner daoOwner;
 
-
-    public DAODBSock(String serverAddres, int port, String user,String password) throws SQLException {
-        url = url.replace("{serverAddr}",serverAddres);
-        url = url.replace("{portAddr}",((Integer)port).toString());
-        con = DriverManager.getConnection(url, user, password);
+    public DAODBSock(Connection con, IDAODBOwner daoOwner) throws SQLException {
+       this.con = con;
+       this.daoOwner = daoOwner;
     }
     private int getTypeId(String type)
     {
@@ -53,8 +52,8 @@ public class DAODBSock implements IDAOSock {
             System.out.println("getTypeId(String type) error." + ex.getMessage());
         }
         finally {
-            closeStatment(pstm);
-            closeResult(rs);
+            DBTools.CloseStatment(pstm);
+            DBTools.CloseResult(rs);
             return  result;
         }
     }
@@ -76,7 +75,7 @@ public class DAODBSock implements IDAOSock {
                 System.out.println("getTypeIdOrAdd(String type) error" + ex.getMessage());
             }
             finally {
-                closeStatment(pstm);
+                DBTools.CloseStatment(pstm);
             }
 
         }
@@ -97,7 +96,7 @@ public class DAODBSock implements IDAOSock {
             System.out.println(" addSock(ISock sock) error" + ex.getMessage());
         }
         finally {
-            closeStatment(pstm);
+            DBTools.CloseStatment(pstm);
         }
         return -1;
     }
@@ -124,8 +123,8 @@ public class DAODBSock implements IDAOSock {
             System.out.println("getSockCollection() error." + ex.getMessage());
         }
         finally {
-            closeResult(rs);
-            closeStatment(pstm);
+            DBTools.CloseResult(rs);
+            DBTools.CloseStatment(pstm);
             return result;
         }
 
@@ -137,30 +136,12 @@ public class DAODBSock implements IDAOSock {
         String colorSock = rs.getString(2);
         int sizeSock = rs.getInt(3);
         String typeSock = rs.getString(4);
-        return new SockData(typeSock, colorSock, sizeSock, result_id);
+        int idOwner = rs.getInt(5);
+        IOwnerData owner = daoOwner.getOwnerById(idOwner);
+        return new SockData(typeSock, colorSock, sizeSock, result_id,owner);
     }
 
-    private void closeStatment(PreparedStatement ps)
-    {
-        if (ps != null) {
-            try {
-                ps.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    private void closeResult(ResultSet rs)
-    {
-        if (rs != null)
-        {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+
 
     @Override
     public ISock readSock(int id) {
@@ -181,8 +162,8 @@ public class DAODBSock implements IDAOSock {
             System.out.println("ReadSock(int id) error." + ex.getMessage());
         }
         finally {
-            closeStatment(pstm);
-            closeResult(rs);
+            DBTools.CloseStatment(pstm);
+            DBTools.CloseResult(rs);
             return  result;
         }
     }

@@ -80,7 +80,7 @@ public class DAOFileSock implements IDAOSock {
         String type = fields[1];
         String color = fields[2];
         int size = Integer.parseInt( fields[3]);
-        return new SockData(type,color,size,id);
+        return new SockData(type,color,size,id,null);
     }
 
     @Override

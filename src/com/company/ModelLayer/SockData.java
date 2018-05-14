@@ -11,6 +11,16 @@ public class SockData implements ISock,Comparable {
     public String color;
     public int size;
     public int id;
+    public IOwnerData owner;
+
+
+    public IOwnerData getOwner() {
+        return owner;
+    }
+
+    public void setOwner(IOwnerData owner) {
+        this.owner = owner;
+    }
 
     public  SockData()
     {
@@ -20,20 +30,22 @@ public class SockData implements ISock,Comparable {
         this.id = -1;
     }
 
-    public  SockData(String type, String color, int size)
+    public  SockData(String type, String color, int size, IOwnerData owner)
     {
         this.type = type;
         this.color = color;
         this.size = size;
         this.id = -1;
+        this.owner = owner;
     }
 
-    public  SockData(String type, String color, int size, int id)
+    public  SockData(String type, String color, int size, int id, IOwnerData owner)
     {
         this.type = type;
         this.color = color;
         this.size = size;
         this.id = id;
+        this.owner = owner;
     }
 
     public  SockData(int id, ISock sock)
@@ -41,6 +53,7 @@ public class SockData implements ISock,Comparable {
         this.type = sock.getType();
         this.color = sock.getColor();
         this.size = sock.getSize();
+        this.owner = sock.getOwner();
         this.id = id;
     }
 
@@ -87,6 +100,9 @@ public class SockData implements ISock,Comparable {
         sb.append("|" + this.type);
         sb.append("|" + this.color);
         sb.append("|" + this.size);
+        if (null != owner) {
+            sb.append("|" + this.owner.getName());
+        }
         return  sb.toString();
     }
 
