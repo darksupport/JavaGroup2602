@@ -2,6 +2,7 @@ package com.company.DAOLayer;
 
 import com.company.ModelLayer.ISock;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -14,6 +15,7 @@ public interface IDAOSock {
 
     List<ISock> getSockCollection();
     ISock readSock(int id);
+    List<ISock> getSockByCondition(String field,String condition,Object value) throws SQLException;
 
     boolean updateSock(ISock changedSock);
 

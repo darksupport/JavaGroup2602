@@ -15,4 +15,6 @@ public interface ISockModel {
     boolean deleteSock(int id);
 
     ISock getSockById(int id);
+
+    List<ISock> getSockByCondition(String fieldName, String condition, String value);
 }

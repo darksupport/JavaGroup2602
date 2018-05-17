@@ -13,9 +13,10 @@ import java.util.List;
  */
 public class DAODBSock implements IDAOSock {
 
-       private static String selectSockByIdQuery = "Select id_socks,color_socks,size_socks,type_sock_type,owner_socks \n" +
+       private static String selectAllSocksQuery = "Select id_socks,color_socks,size_socks,type_sock_type,owner_socks,name_owner \n" +
             "FROM sockdb.socks \n" +
-            "left join sockdb.sock_types ON sock_types.id_sock_types = socks.type_socks \n";
+            "left join sockdb.sock_types ON sock_types.id_sock_types = socks.type_socks \n" +
+               "left join sockdb.owner ON socks.owner_socks = owner.id_owner ";
 
     private static String insertSockQuery = "Insert into sockdb.socks \n" +
             "(color_socks,size_socks,type_socks) \n" +
@@ -111,7 +112,7 @@ public class DAODBSock implements IDAOSock {
         List<ISock> result = new ArrayList<>();
         ResultSet rs = null;
         try {
-            pstm = con.prepareStatement(selectSockByIdQuery);
+            pstm = con.prepareStatement(selectAllSocksQuery);
             rs = pstm.executeQuery();
             while (rs.next())
             {
@@ -147,7 +148,7 @@ public class DAODBSock implements IDAOSock {
     public ISock readSock(int id) {
         ISock result = null;
         ResultSet rs = null;
-        String queryWithCondition = selectSockByIdQuery + "WHERE id_socks = ?";
+        String queryWithCondition = selectAllSocksQuery + "WHERE id_socks = ?";
         try {
             pstm = con.prepareStatement(queryWithCondition);
             pstm.setInt(1,id);
@@ -166,6 +167,20 @@ public class DAODBSock implements IDAOSock {
             DBTools.CloseResult(rs);
             return  result;
         }
+    }
+
+    @Override
+    public List<ISock> getSockByCondition(String field, String condition, Object value) throws SQLException {
+       String query = selectAllSocksQuery + " WHERE " + field + " " + condition + " ?";
+       List<ISock> result = new ArrayList<>();
+       pstm = con.prepareStatement(query);
+       pstm.setObject(1,value);
+       ResultSet rs = pstm.executeQuery();
+       while (rs.next())
+       {
+          result.add(convertFromResultSet(rs));
+       }
+       return result;
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.company.ModelLayer;
 import com.company.DAOLayer.IDAOSock;
 import com.company.ModelLayer.SearchForFileDAO.SearchManager;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -47,6 +48,17 @@ public class SockModel implements ISockModel {
     public ISock getSockById(int id)
     {
         return sockDao.readSock(id);
+    }
+
+    @Override
+    public List<ISock> getSockByCondition(String fieldName, String condition, String value) {
+        try {
+            return sockDao.getSockByCondition(fieldName, condition, value);
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 

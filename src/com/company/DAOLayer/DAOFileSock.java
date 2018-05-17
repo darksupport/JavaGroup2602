@@ -116,6 +116,11 @@ public class DAOFileSock implements IDAOSock {
     }
 
     @Override
+    public List<ISock> getSockByCondition(String field, String condition, Object value) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public boolean updateSock(ISock changedSock) {
        ISock oldSock = readSock(changedSock.getId());
        if (null == oldSock)
