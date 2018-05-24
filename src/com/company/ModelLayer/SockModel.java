@@ -25,10 +25,9 @@ public class SockModel implements ISockModel {
     }
 
     @Override
-    public ISock addSock(ISock sock)
+    public void addSock(ISock sock)
     {
-        int id = sockDao.addSock(sock);
-        return id>0 ? sockDao.readSock(id): null;
+        sockDao.addSock(sock);
     }
 
     @Override

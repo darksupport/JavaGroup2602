@@ -8,7 +8,7 @@ import java.util.List;
 public interface ISockModel {
     List<ISock> getAllSocks();
 
-    ISock addSock(ISock sock);
+    void addSock(ISock sock);
 
     ISock updateSock(ISock sock);
 
