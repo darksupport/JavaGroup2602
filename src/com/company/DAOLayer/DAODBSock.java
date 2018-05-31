@@ -2,6 +2,7 @@ package com.company.DAOLayer;
 
 import com.company.ModelLayer.IOwnerData;
 import com.company.ModelLayer.ISock;
+import com.company.ModelLayer.OwnerData;
 import com.company.ModelLayer.SockData;
 
 import java.sql.*;
@@ -139,7 +140,7 @@ public class DAODBSock implements IDAOSock {
         String typeSock = rs.getString(4);
         int idOwner = rs.getInt(5);
         IOwnerData owner = daoOwner.getOwnerById(idOwner);
-        return new SockData(typeSock, colorSock, sizeSock, result_id,owner);
+        return new SockData(typeSock, colorSock, sizeSock, result_id,(OwnerData) owner);
     }
 
 

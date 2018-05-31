@@ -1,21 +1,26 @@
 package com.company.ModelLayer;
 
 import com.company.DAOLayer.IDAOSock;
-import com.company.ModelLayer.SearchForFileDAO.SearchManager;
+import com.company.ModelLayer.SearchDBDAO.SearchManager;
 
+
+import javax.jws.WebService;
 import java.sql.SQLException;
 import java.util.List;
 
 /**
  * Created by Brainacad4 on 23.04.2018.
  */
+@WebService(endpointInterface = "com.company.ModelLayer.ISockModel")
 public class SockModel implements ISockModel {
 
     IDAOSock sockDao;
+    SearchManager searchManager;
 
     public SockModel(IDAOSock sockDao)
     {
         this.sockDao = sockDao;
+        this.searchManager = new SearchManager(this);
     }
 
     @Override
@@ -60,11 +65,9 @@ public class SockModel implements ISockModel {
         }
     }
 
-
+    @Override
     public List<ISock> findBy(Object findValue,String fieldName)
     {
-        List<ISock> allSocks = getAllSocks();
-        SearchManager searchManager = new SearchManager(allSocks);
         return searchManager.search(fieldName,findValue);
     }
 }

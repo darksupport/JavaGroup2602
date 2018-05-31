@@ -1,12 +1,9 @@
 package com.company.ModelLayer.SearchDBDAO;
 
-import com.company.DAOLayer.IDAOSock;
 import com.company.ModelLayer.ISearchManager;
 import com.company.ModelLayer.ISock;
 import com.company.ModelLayer.ISockModel;
-import com.company.ModelLayer.SockData;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,7 +27,7 @@ public class SearchManager implements ISearchManager {
     private void initTranslation()
     {
         fieldNameTranslate.put("Color","color_socks");
-        fieldNameTranslate.put("Type","type_socks");
+        fieldNameTranslate.put("Type","sock_types.type_sock_type");
         fieldNameTranslate.put("Size","size_socks");
         fieldNameTranslate.put("Owner","name_owner");
     }

@@ -1,24 +1,30 @@
 package com.company.ModelLayer;
 
 import javax.activation.UnsupportedDataTypeException;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Created by 1111 on 05.04.2018.
  */
 public class SockData implements ISock,Comparable {
 
-    public String type;
-    public String color;
+    @XmlTransient
+   public String type;
+    @XmlTransient
+   public String color;
+    @XmlTransient
     public int size;
-    public int id;
-    public IOwnerData owner;
+    @XmlTransient
+    public  int id;
+    @XmlTransient
+    public OwnerData owner;
 
 
-    public IOwnerData getOwner() {
+    public OwnerData getOwner() {
         return owner;
     }
 
-    public void setOwner(IOwnerData owner) {
+    public void setOwner(OwnerData owner) {
         this.owner = owner;
     }
 
@@ -30,7 +36,7 @@ public class SockData implements ISock,Comparable {
         this.id = -1;
     }
 
-    public  SockData(String type, String color, int size, IOwnerData owner)
+    public  SockData(String type, String color, int size, OwnerData owner)
     {
         this.type = type;
         this.color = color;
@@ -39,7 +45,7 @@ public class SockData implements ISock,Comparable {
         this.owner = owner;
     }
 
-    public  SockData(String type, String color, int size, int id, IOwnerData owner)
+    public  SockData(String type, String color, int size, int id, OwnerData owner)
     {
         this.type = type;
         this.color = color;
