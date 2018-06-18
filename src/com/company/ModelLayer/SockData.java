@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class SockData implements ISock,Comparable {
 
     @XmlTransient
-   public String type;
+   public SockType type;
     @XmlTransient
    public String color;
     @XmlTransient
@@ -30,13 +30,13 @@ public class SockData implements ISock,Comparable {
 
     public  SockData()
     {
-        this.type = "";
+        this.type = new SockType();
         this.color = "";
         this.size = 0;
         this.id = -1;
     }
 
-    public  SockData(String type, String color, int size, OwnerData owner)
+    public  SockData(SockType type, String color, int size, OwnerData owner)
     {
         this.type = type;
         this.color = color;
@@ -45,7 +45,7 @@ public class SockData implements ISock,Comparable {
         this.owner = owner;
     }
 
-    public  SockData(String type, String color, int size, int id, OwnerData owner)
+    public  SockData(SockType type, String color, int size, int id, OwnerData owner)
     {
         this.type = type;
         this.color = color;
@@ -64,7 +64,7 @@ public class SockData implements ISock,Comparable {
     }
 
     @Override
-    public void setType(String type) {
+    public void setType(SockType type) {
         this.type = type;
     }
 
@@ -79,7 +79,7 @@ public class SockData implements ISock,Comparable {
     }
 
     @Override
-    public String getType() {
+    public SockType getType() {
         return this.type;
     }
 
@@ -103,7 +103,7 @@ public class SockData implements ISock,Comparable {
     {
         StringBuilder sb = new StringBuilder("");
         sb.append(this.id);
-        sb.append("|" + this.type);
+        sb.append("|" + this.type.getSockTypeName());
         sb.append("|" + this.color);
         sb.append("|" + this.size);
         if (null != owner) {

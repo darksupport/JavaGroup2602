@@ -1,9 +1,6 @@
 package com.company.DAOLayer;
 
-import com.company.ModelLayer.IOwnerData;
-import com.company.ModelLayer.ISock;
-import com.company.ModelLayer.OwnerData;
-import com.company.ModelLayer.SockData;
+import com.company.ModelLayer.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,83 +11,36 @@ import java.util.List;
  */
 public class DAODBSock implements IDAOSock {
 
-       private static String selectAllSocksQuery = "Select id_socks,color_socks,size_socks,type_sock_type,owner_socks,name_owner \n" +
+       private static String selectAllSocksQuery = "Select id_socks,color_socks,size_socks,type_socks,owner_socks,name_owner \n" +
             "FROM sockdb.socks \n" +
-            "left join sockdb.sock_types ON sock_types.id_sock_types = socks.type_socks \n" +
+            //"left join sockdb.sock_types ON sock_types.id_sock_types = socks.type_socks \n" +
                "left join sockdb.owner ON socks.owner_socks = owner.id_owner ";
 
     private static String insertSockQuery = "Insert into sockdb.socks \n" +
             "(color_socks,size_socks,type_socks) \n" +
             "values (?,?,?)";
 
-    private static String selectIdByTypeName = "Select id_sock_types from sockdb.sock_types where type_sock_type = ? limit 1";
 
-    private static String insertSockType = "Insert into sockdb.sock_types (type_sock_type) values (?)";
-
+    private static String updateSock = "Update sockdb.socks SET color_socks = ?, size_socks =? , socks.type_socks = ?, socks.owner_socks =? WHERE socks.id_socks = ?";
 
     private  Connection con;
     PreparedStatement pstm;
     IDAODBOwner daoOwner;
+    IDAODBSockType daoSockType;
 
-    public DAODBSock(Connection con, IDAODBOwner daoOwner) throws SQLException {
+    public DAODBSock(Connection con, IDAODBOwner daoOwner, IDAODBSockType daoSockType) throws SQLException {
        this.con = con;
        this.daoOwner = daoOwner;
-    }
-    private int getTypeId(String type)
-    {
-        ResultSet rs = null;
-        int result = -1;
-        try {
-            pstm = con.prepareStatement(selectIdByTypeName);
-            pstm.setString(1,type);
-            rs = pstm.executeQuery();
-            if (rs.next())
-            {
-                result = rs.getInt(1);
-            }
-        }
-        catch (SQLException ex)
-        {
-            System.out.println("getTypeId(String type) error." + ex.getMessage());
-        }
-        finally {
-            DBTools.CloseStatment(pstm);
-            DBTools.CloseResult(rs);
-            return  result;
-        }
+       this.daoSockType = daoSockType;
     }
 
-    private int getTypeIdOrAdd(String type)
-    {
-        int result = getTypeId(type);
-        if ( result == -1)
-        {
-            try
-            {
-                pstm = con.prepareStatement(insertSockType);
-                pstm.setString(1,type);
-                pstm.executeUpdate();
-                result = getTypeId(type);
-            }
-            catch (SQLException ex)
-            {
-                System.out.println("getTypeIdOrAdd(String type) error" + ex.getMessage());
-            }
-            finally {
-                DBTools.CloseStatment(pstm);
-            }
-
-        }
-        return result;
-    }
     @Override
     public int addSock(ISock sock) {
-        int typeId = getTypeIdOrAdd(sock.getType());
         try {
             pstm = con.prepareStatement(insertSockQuery);
             pstm.setString(1,sock.getColor());
             pstm.setInt(2,sock.getSize());
-            pstm.setInt(3,typeId);
+            pstm.setInt(3,sock.getType().getSockTypeId());
             return pstm.executeUpdate();
         }
         catch (SQLException ex)
@@ -137,10 +87,11 @@ public class DAODBSock implements IDAOSock {
         int result_id = rs.getInt(1);
         String colorSock = rs.getString(2);
         int sizeSock = rs.getInt(3);
-        String typeSock = rs.getString(4);
+        int idTypeSock = rs.getInt(4);
         int idOwner = rs.getInt(5);
         IOwnerData owner = daoOwner.getOwnerById(idOwner);
-        return new SockData(typeSock, colorSock, sizeSock, result_id,(OwnerData) owner);
+        ISockType type = daoSockType.getById(idTypeSock);
+        return new SockData((SockType) type, colorSock, sizeSock, result_id,(OwnerData) owner);
     }
 
 
@@ -185,7 +136,24 @@ public class DAODBSock implements IDAOSock {
     }
 
     @Override
-    public boolean updateSock(ISock changedSock) {
+    public boolean updateSock(ISock changedSock)  {
+        try {
+            pstm = con.prepareStatement(updateSock);
+            pstm.setString(1, changedSock.getColor());
+            pstm.setInt(2, changedSock.getSize());
+            pstm.setInt(3, changedSock.getType().getSockTypeId());
+            pstm.setInt(4, changedSock.getOwner().getId());
+            pstm.setInt(5, changedSock.getId());
+            pstm.executeUpdate();
+            return true;
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("updateSock(ISock changedSock) error." + ex.getMessage());
+        }
+        finally {
+            DBTools.CloseStatment(pstm);
+        }
         return false;
     }
 

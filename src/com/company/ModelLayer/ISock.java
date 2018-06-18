@@ -8,12 +8,12 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlJavaTypeAdapter(SockDataAdapter.class)
 public interface ISock extends Comparable {
 
-    void setType(String type);
+    void setType(SockType type);
     void setSize(int size);
     void setColor(String color);
   //  void setOwner(IOwnerData owner);
 
-    String getType();
+    SockType getType();
     int getSize();
     String getColor();
     int getId();
