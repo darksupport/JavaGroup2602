@@ -2,7 +2,7 @@ import com.company.DAOLayer.*;
 import com.company.ModelLayer.ISockModel;
 import com.company.ModelLayer.ISockTypeModel;
 import com.company.ModelLayer.SockModel;
-import com.company.ModelLayer.SockTypeModel;
+import com.company.ModelLayer.SockTypeModel.SockTypeModel;
 
 import javax.xml.ws.Endpoint;
 import java.sql.Connection;

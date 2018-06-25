@@ -1,6 +1,7 @@
-package com.company.ModelLayer;
+package com.company.ModelLayer.SockTypeModel;
 
 import com.company.DAOLayer.IDAODBSockType;
+import com.company.ModelLayer.ISockTypeModel;
 
 import javax.jws.WebService;
 import java.util.List;

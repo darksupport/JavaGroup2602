@@ -1,4 +1,4 @@
-package com.company.ModelLayer;
+package com.company.ModelLayer.SockTypeModel;
 
 /**
  * Created by Brainacad4 on 18.06.2018.

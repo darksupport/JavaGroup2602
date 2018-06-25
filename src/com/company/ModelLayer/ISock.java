@@ -1,5 +1,7 @@
 package com.company.ModelLayer;
 
+import com.company.ModelLayer.SockTypeModel.SockType;
+
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**

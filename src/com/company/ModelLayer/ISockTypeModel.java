@@ -1,5 +1,7 @@
 package com.company.ModelLayer;
 
+import com.company.ModelLayer.SockTypeModel.SockType;
+
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import java.util.List;

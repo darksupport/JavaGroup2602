@@ -1,6 +1,8 @@
 package com.company.DAOLayer;
 
 import com.company.ModelLayer.*;
+import com.company.ModelLayer.SockTypeModel.ISockType;
+import com.company.ModelLayer.SockTypeModel.SockType;
 
 import java.sql.*;
 import java.util.ArrayList;

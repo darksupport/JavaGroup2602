@@ -1,7 +1,7 @@
 package com.company.DAOLayer;
 
-import com.company.ModelLayer.ISockType;
-import com.company.ModelLayer.SockType;
+import com.company.ModelLayer.SockTypeModel.ISockType;
+import com.company.ModelLayer.SockTypeModel.SockType;
 
 import java.util.List;
 

@@ -1,36 +1,36 @@
-package com.company.ModelLayer;
+package com.company.ModelLayer.SockTypeModel;
 
 /**
  * Created by Brainacad4 on 18.06.2018.
  */
 public class SockType implements ISockType {
 
-    int id;
+    int sockTypeId;
     String name;
     boolean active;
     public SockType()
     {
-        this.id = -1;
+        this.sockTypeId = -1;
         this.name = "";
         this.active = true;
     }
 
     public SockType(String name)
     {
-        this.id = -1;
+        this.sockTypeId = -1;
         this.name = name;
         this.active = true;
     }
 
     public SockType(int id, String name, boolean active)
     {
-        this.id = id;
+        this.sockTypeId = id;
         this.name = name;
         this.active = active;
     }
     @Override
     public int getSockTypeId() {
-        return id;
+        return sockTypeId;
     }
 
     @Override
